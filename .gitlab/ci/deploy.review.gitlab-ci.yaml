@@ -1,0 +1,88 @@
+infra:configmap:review:
+    extends: .deploy-infra-review
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/overlays/ci/configmap
+
+infra:ingress:review:
+    extends: .deploy-infra-review
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/overlays/ci/ingress
+
+#infra:volume:review:
+#  extends: .deploy-infra-review
+#  when: manual
+#  variables:
+#    KUBERNETES_MANIFEST_TEMPLATES:
+#      src/overlays/ci/volumes
+
+api:service-cif:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-cif"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-cif/overlay/ci
+
+api:service-user:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-user"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-user/overlay/ci
+
+api:service-saving-konven:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-saving-konven"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-saving-konven/overlay/ci
+
+api:service-saving-syariah:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-saving-syariah"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-saving-syariah/overlay/ci
+
+api:service-deposito-syariah:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-deposito-syariah"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-deposito-syariah/overlay/ci
+
+api:service-deposito-konven:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-deposito-konven"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-deposito-konven/overlay/ci
+
+api:service-transaction:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "service-transaction"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-transaction/overlay/ci
+
+api:OlibsMiddleware:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "OlibsMiddleware"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/OlibsMiddleware/overlay/ci
+
+api:middleware-bimasaktibe:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-bimasaktibe"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-bimasaktibe/overlay/ci
+
+api:middleware-jsonbe:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-jsonbe"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-jsonbe/overlay/ci
+
+api:middleware-token:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-token"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-token/overlay/ci
+
+webapp:frontend:review:
+    extends: .deploy-review
+    variables:
+        CI_REGISTRY_IMAGE: "frontend-admin"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/frontend-admin/overlay/ci

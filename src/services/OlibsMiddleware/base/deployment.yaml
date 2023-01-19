@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: olibsmiddleware
+    labels:
+        app: olibsmiddleware
+        tier: backend
+spec:
+    replicas: 1
+    template:
+        metadata:
+            name: olibsmiddleware
+            labels:
+                app: olibsmiddleware
+                tier: backend
+        spec:
+            containers:
+                - name: olibsmiddleware
+                  image: 192.168.100.250:8086/collega/olibsmiddleware:latest
+                  imagePullPolicy: IfNotPresent
+                  resources:
+                      requests:
+                          cpu: "250m"
+                          memory: "256Mi"
+                      limits:
+                          cpu: "250m"
+                          memory: "512Mi"
+            restartPolicy: Always
+    selector:
+        matchLabels:
+            app: olibsmiddleware
+            tier: backend

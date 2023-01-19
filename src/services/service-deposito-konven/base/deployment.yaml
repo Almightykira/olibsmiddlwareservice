@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: service-deposito-konven
+    labels:
+        app: service-deposito-konven
+        tier: backend
+spec:
+    replicas: 1
+    template:
+        metadata:
+            name: service-deposito-konven
+            labels:
+                app: service-deposito-konven
+                tier: backend
+        spec:
+            containers:
+                - name: service-deposito-konven
+                  image: 192.168.100.250:8086/collega/service-deposito-konven:latest
+                  imagePullPolicy: IfNotPresent
+                  #          command: [ "java", "-Dhttps.proxySet=$(PROXY_ENABLED)","-Dhttp.proxyHost=$(PROXY_HOST)", "-Dhttp.proxyPort=$(PROXY_PORT)", "-Dhttps.proxyHost=$(PROXY_HOST)", "-Dhttps.proxyPort=$(PROXY_PORT)", "-Djava.security.egd=file:/dev/./urandom", "-jar", "spring-boot.jar" ]
+                  resources:
+                      requests:
+                          cpu: "10m"
+                          memory: "100Mi"
+                      limits:
+                          cpu: "1000m"
+                          memory: "1000Mi"
+                  envFrom:
+                      - configMapRef:
+                            name: base-config
+                            optional: false
+            restartPolicy: Always
+    selector:
+        matchLabels:
+            app: service-deposito-konven
+            tier: backend

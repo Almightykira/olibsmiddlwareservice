@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend-admin
+    labels:
+        app: frontend-admin
+        tier: frontend
+spec:
+    replicas: 1
+    template:
+        metadata:
+            name: frontend-admin
+            labels:
+                app: frontend-admin
+                tier: frontend
+        spec:
+            containers:
+                - name: frontend-admin
+                  image: 192.168.100.250:8086/collega/frontend-admin:latest
+                  imagePullPolicy: IfNotPresent
+                  resources:
+                      requests:
+                          cpu: "10m"
+                          memory: "50Mi"
+                      limits:
+                          cpu: "500m"
+                          memory: "500Mi"
+            restartPolicy: Always
+    selector:
+        matchLabels:
+            app: frontend-admin
+            tier: frontend

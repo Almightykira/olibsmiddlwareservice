@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: middleware-bimasaktibe
+    labels:
+        app: middleware-bimasaktibe
+        tier: backend
+spec:
+    selector:
+        app: middleware-bimasaktibe
+        tier: backend
+    ports:
+        - port: 1167
+          protocol: TCP
+          targetPort: 1167
+          nodePort: 32050
+    type: NodePort

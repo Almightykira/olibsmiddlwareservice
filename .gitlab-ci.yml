@@ -1,0 +1,15 @@
+stages:
+    - review
+    - dev
+    - prod
+
+default:
+    tags:
+        - docker
+
+variables:
+    DOCKER_REGCRED: "nexus-regcred"
+    CI_REGISTRY_NAMESPACE: "collega"
+
+include:
+    - local: .gitlab/ci/*.gitlab-ci.yaml

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: middleware-token-svc
+    labels:
+        app: middleware-token
+        tier: backend
+spec:
+    selector:
+        app: middleware-token
+        tier: backend
+    ports:
+        - port: 1167
+          protocol: TCP
+          targetPort: 1167
+    type: ClusterIP

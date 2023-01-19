@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: base-config
+data:
+    APPLICATION_PORT: "8080"
+    LOG_LEVEL: "ERROR"
+    SERVER_SERVLET_CONTEXT_PATH: "/"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: nginx-config
+data:
+    template: |
+        server {
+          listen       80;
+          server_name  localhost;
+          error_page 404 = @angular;
+
+          location / {
+            root      /var/www/html;
+            index     index.html;
+            try_files $uri $uri/ /index.html?$args;
+          }
+
+          location @angular {
+            return 302 /;
+          }
+        }

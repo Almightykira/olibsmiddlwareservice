@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: service-cif
+    labels:
+        app: service-cif
+        tier: backend
+spec:
+    replicas: 1
+    template:
+        metadata:
+            name: service-cif
+            labels:
+                app: service-cif
+                tier: backend
+        spec:
+            containers:
+                - name: service-cif
+                  image: 192.168.100.250:8086/collega/service-cif:latest
+                  imagePullPolicy: IfNotPresent
+                  #          command: [ "java", "-Dhttps.proxySet=$(PROXY_ENABLED)","-Dhttp.proxyHost=$(PROXY_HOST)", "-Dhttp.proxyPort=$(PROXY_PORT)", "-Dhttps.proxyHost=$(PROXY_HOST)", "-Dhttps.proxyPort=$(PROXY_PORT)", "-Djava.security.egd=file:/dev/./urandom", "-jar", "spring-boot.jar" ]
+                  resources:
+                      requests:
+                          cpu: "10m"
+                          memory: "100Mi"
+                      limits:
+                          cpu: "1000m"
+                          memory: "1000Mi"
+                  envFrom:
+                      - configMapRef:
+                            name: base-config
+                            optional: false
+            restartPolicy: Always
+    selector:
+        matchLabels:
+            app: service-cif
+            tier: backend

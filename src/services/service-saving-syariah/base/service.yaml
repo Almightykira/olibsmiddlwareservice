@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: service-saving-syariah
+    labels:
+        app: service-saving-syariah
+        tier: backend
+spec:
+    selector:
+        app: service-saving-syariah
+        tier: backend
+    ports:
+        - port: 8083
+          protocol: TCP
+          targetPort: 8083
+    type: ClusterIP

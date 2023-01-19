@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: service-saving-konven
+    labels:
+        app: service-saving-konven
+        tier: backend
+spec:
+    selector:
+        app: service-saving-konven
+        tier: backend
+    ports:
+        - port: 8082
+          protocol: TCP
+          targetPort: 8082
+    type: ClusterIP

@@ -1,0 +1,118 @@
+variables:
+    DOCKER_REGCRED: "nexus-regcred"
+
+include:
+    - project: tabeldata.co.id/gitlab-cicd-templates
+      ref: main
+      file: kubernetes.gitlab-ci.yml
+
+.deploy-infra-review:
+    extends: .kustomize-deploy
+    stage: review
+    resource_group: infra-review
+    environment:
+        name: review
+    allow_failure: true
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_ENV == "review" && $CI_ENV_REVIEW_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          when: manual
+        - if: $CI_ENV_REVIEW_ENABLED == "true"
+          when: manual
+        - when: never
+
+.deploy-infra-dev:
+    extends: .kustomize-deploy
+    stage: dev
+    resource_group: infra-dev
+    environment:
+        name: dev
+    allow_failure: true
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_ENV == "dev" && $CI_ENV_DEV_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          when: manual
+        - if: $CI_ENV_DEV_ENABLED == "true"
+          when: manual
+        - when: never
+
+.deploy-infra-prod:
+    extends: .kustomize-deploy
+    stage: prod
+    resource_group: infra-prod
+    environment:
+        name: prod
+    allow_failure: true
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_ENV == "prod" && $CI_ENV_PROD_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          when: manual
+        - if: $CI_ENV_PROD_ENABLED == "true"
+          when: manual
+        - when: never
+
+.deploy-review:
+    extends: .kustomize-deploy
+    stage: review
+    resource_group: resource-review
+    environment:
+        name: review
+    allow_failure: true
+    variables:
+        CI_IMAGE_EXPOSE_PORT: 8080
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_PARENT_PROJECT_NAME == $CI_REGISTRY_IMAGE && $CI_ENV == "review" && $CI_ENV_REVIEW_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          variables:
+              CI_IMAGE_VERSION: "$CI_PARENT_COMMIT_SHORT_SHA"
+          when: always
+        - if: $CI_ENV_REVIEW_ENABLED == "true"
+          variables:
+              CI_IMAGE_VERSION: "latest"
+          when: manual
+        - when: never
+
+.deploy-dev:
+    extends: .kustomize-deploy
+    stage: dev
+    resource_group: resource-dev
+    environment:
+        name: dev
+    allow_failure: true
+    variables:
+        CI_IMAGE_EXPOSE_PORT: 8080
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_PARENT_PROJECT_NAME == $CI_REGISTRY_IMAGE && $CI_ENV == "dev" && $CI_ENV_DEV_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          variables:
+              CI_IMAGE_VERSION: "$CI_PARENT_COMMIT_SHORT_SHA"
+          when: always
+        - if: $CI_ENV_DEV_ENABLED == "true"
+          variables:
+              CI_IMAGE_VERSION: "latest"
+          when: manual
+        - when: never
+
+.deploy-prod:
+    extends: .kustomize-deploy
+    stage: prod
+    resource_group: resource-prod
+    environment:
+        name: prod
+    allow_failure: true
+    variables:
+        CI_IMAGE_EXPOSE_PORT: 8080
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/auth-server/overlay/ci
+    rules:
+        - if: $CI_PARENT_PROJECT_NAME == $CI_REGISTRY_IMAGE && $CI_ENV == "prod" && $CI_ENV_PROD_ENABLED == "true" && $CI_ENV_TRIGGERED == "true"
+          variables:
+              CI_IMAGE_VERSION: "$CI_PARENT_COMMIT_SHORT_SHA"
+          when: always
+        - if: $CI_ENV_PROD_ENABLED == "true"
+          variables:
+              CI_IMAGE_VERSION: "latest"
+          when: manual
+        - when: never

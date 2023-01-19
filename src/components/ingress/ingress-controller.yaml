@@ -1,0 +1,131 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: nginx-controller
+    annotations:
+        #nginx.ingress.kubernetes.io/rewrite-target: /$2
+        # nginx.ingress.kubernetes.io/app-root: /app/
+        nginx.ingress.kubernetes.io/proxy-body-size: 100M
+spec:
+    ingressClassName: nginx
+    rules:
+        - host: olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: frontend-admin
+                            port:
+                                number: 7080
+        - host: api-olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /cif/
+                    backend:
+                        service:
+                            name: service-cif
+                            port:
+                                number: 8080
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /user/
+                    backend:
+                        service:
+                            name: service-user
+                            port:
+                                number: 8081
+        - host: api-olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /saving-konven/
+                    backend:
+                        service:
+                            name: service-saving-konven
+                            port:
+                                number: 8082
+        - host: api-olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /saving-syariah/
+                    backend:
+                        service:
+                            name: service-saving-syariah
+                            port:
+                                number: 8083
+        - host: api-olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /deposito-konven/
+                    backend:
+                        service:
+                            name: service-deposito-konven
+                            port:
+                                number: 8084
+        - host: api-olibsdigital.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /deposito-syariah/
+                    backend:
+                        service:
+                            name: service-deposito-syariah
+                            port:
+                                number: 8085
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /transaction/
+                    backend:
+                        service:
+                            name: service-transaction
+                            port:
+                                number: 8086
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /olibsmiddleware/
+                    backend:
+                        service:
+                            name: olibsmiddleware
+                            port:
+                                number: 1167
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /middleware-bimasaktibe/
+                    backend:
+                        service:
+                            name: middleware-bimasaktibe
+                            port:
+                                number: 1167
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /middleware-jsonbe/
+                    backend:
+                        service:
+                            name: middleware-jsonbe
+                            port:
+                                number: 1167
+        - host: api-digibank.devsecopsid.com
+          http:
+              paths:
+                  - pathType: Prefix
+                    path: /middleware-token/
+                    backend:
+                        service:
+                            name: middleware-token
+                            port:
+                                number: 1167

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: middleware-bimasaktibe
+    labels:
+        app: middleware-bimasaktibe
+        tier: backend
+spec:
+    replicas: 1
+    template:
+        metadata:
+            name: middleware-bimasaktibe
+            labels:
+                app: middleware-bimasaktibe
+                tier: backend
+        spec:
+            containers:
+                - name: middleware-bimasaktibe
+                  image: 192.168.7.144:8081/collega/middleware-bimasaktibe:latest
+                  imagePullPolicy: IfNotPresent
+                  resources:
+                      requests:
+                          cpu: "250m"
+                          memory: "256Mi"
+                      limits:
+                          cpu: "250m"
+                          memory: "512Mi"
+            restartPolicy: Always
+    selector:
+        matchLabels:
+            app: middleware-bimasaktibe
+            tier: backend

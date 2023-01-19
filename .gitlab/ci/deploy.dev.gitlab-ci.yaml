@@ -1,0 +1,58 @@
+infra:configmap:dev:
+    extends: .deploy-infra-dev
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/overlays/ci/configmap
+
+infra:ingress:dev:
+    extends: .deploy-infra-dev
+    variables:
+        KUBERNETES_MANIFEST_TEMPLATES: src/overlays/ci/ingress
+
+#infra:volume:dev:
+#  extends: .deploy-infra-dev
+#  when: manual
+#  variables:
+#    KUBERNETES_MANIFEST_TEMPLATES:
+#      src/overlays/ci/volumes
+
+api:service-cif:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "service-cif"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-cif/overlay/ci
+
+api:service-user:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "service-user"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/service-user/overlay/ci
+        
+api:OlibsMiddleware:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "OlibsMiddleware"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/OlibsMiddleware/overlay/ci
+
+api:middleware-bimasaktibe:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-bimasaktibe"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-bimasaktibe/overlay/ci
+
+api:middleware-jsonbe:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-jsonbe"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-jsonbe/overlay/ci
+
+api:middleware-token:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "middleware-token"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/middleware-token/overlay/ci
+        
+webapp:frontend:dev:
+    extends: .deploy-dev
+    variables:
+        CI_REGISTRY_IMAGE: "frontend-admin"
+        KUBERNETES_MANIFEST_TEMPLATES: src/services/frontend-admin/overlay/ci
